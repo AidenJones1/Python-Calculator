@@ -1,23 +1,54 @@
 from src.application.calculator.calculator_utils import is_valid_expression
 
 def test_is_valid_expression():
-	assert is_valid_expression("") == False
-	assert is_valid_expression("+") == False
-	assert is_valid_expression("-4") == False
-	assert is_valid_expression("8+") == False
-	assert is_valid_expression("2-19") == True
-	assert is_valid_expression("(10-5))") == False
-	assert is_valid_expression("3^(2+1)") == True
-	assert is_valid_expression("(5/3)+4^(9*1)") == True
-	assert is_valid_expression("(9^2)/((4-1)") == False
-	assert is_valid_expression("42-5+") == False
-	assert is_valid_expression("(42-)") == False
-	assert is_valid_expression("((((5-3))))") == True
-	assert is_valid_expression("((((5-3)-1)))") == True
-	assert is_valid_expression("((((5-3))*9))") == True
-	assert is_valid_expression("((((5-3))))/2") == True
-	assert is_valid_expression("(((8-(5-3))))") == True
-	assert is_valid_expression("((1*((5-3))))") == True
-	assert is_valid_expression("18+((((5-3))))") == True
-	assert is_valid_expression("((((5-3))))/((((9-0))))") == True
-	assert is_valid_expression("2^2^2") == True
+	cases = [
+		# Empty String
+		("", False),
+
+		# Missing components
+		("89", False),
+		("+", False),
+		("()", False),
+		("+3", False),
+		("-2", False),
+		("/8", False),
+		("^4", False),
+		("*6", False),
+		("3+", False),
+		("2-", False),
+		("8/", False),
+		("4^", False),
+		("6*", False),
+
+		# Basic Operations
+		("3+2", True),
+		("2*0", True),
+		("1/7", True),
+		("9^4", True),
+		("3-2", True),
+	
+		# Single Operation
+		("+", False),
+		("-", False),
+		("/", False),
+		("-", False),
+		("^", False),
+
+		# Parenthesis testing
+		("(+23)", False),
+		("(3+)", False),
+		("(1+6)+(9*3)", True),
+		("1-(4*3)", True),
+		("7/(2-1)", True),
+		("4(8/2)", False),
+
+		# Parenthesis count
+		("(3+2)", True),
+		("((3+2)", False),
+		("(3+2))", False),
+		("(3+2", False),
+		("3+2)", False),
+	]
+
+	for expr, expected in cases:
+		assert is_valid_expression(expr) == expected
