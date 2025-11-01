@@ -3,14 +3,15 @@ from tkinter.messagebox import showerror
 
 from ..gui_utils import visual_grid
 from .display_label import DisplayLabel
-from .calculator_utils import is_valid_expression
+from .calculator_utils import is_valid_expression, shunting_yard_algorithm, convert_to_tree
 
 class CalculatorFrame(tk.Frame):
     def calculate_sequence(self):
         expr = self.display.get_expression()
 
         if is_valid_expression(expr):
-            pass
+            postfix_expr = shunting_yard_algorithm(expr)
+            root_node = convert_to_tree(postfix_expr)
 
         else:
             showerror("Invalid Syntax", "Invalid Syntx")

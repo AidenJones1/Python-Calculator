@@ -1,15 +1,14 @@
-INVALID_ENDINGS = set(["^", "+", "-", "*", "/", ".", "("])
-OPERATORS_AND_OPEN_PARENTHESIS = ["^", "+", "-", "*", "/", "("]
-OPERATORS = set(["^", "+", "-", "*", "/"])
-
-PRECEDENCE = {"^" : 3, "*" : 2, "/" : 2, "+" : 1, "-" : 1}
-ASSOCIATIVITY = {"^" : "R", "*" : "L", "/" : "L", "+" : "L", "-" : "L"}
+from .nodes import OperatorNode, NumberNode
 
 def is_valid_expression(expression: str) -> bool:
+    INVALID_ENDINGS = set(["^", "+", "-", "*", "/", ".", "("])
+    OPERATORS_AND_OPEN_PARENTHESIS = set(["^", "+", "-", "*", "/", "("])
+    OPERATORS = set(["^", "+", "-", "*", "/"])
+
     if not expression: # Empty string
         return False
     
-    if expression[-1] in INVALID_ENDINGS or expression[0] in OPERATORS: # e.g. '-4' OR '4-'
+    if expression[-1] in INVALID_ENDINGS or expression[0] in OPERATORS: # e.g. '-4' OR '4-' OR '7.'
         return False
     
     operator_present = False
@@ -41,8 +40,12 @@ def is_valid_expression(expression: str) -> bool:
     
     return True
 
-def shunting_yard_algorithm(expression: str):
-    output_queue = []
+def shunting_yard_algorithm(expression: str) -> list[str]:
+    OPERATORS = set(["^", "+", "-", "*", "/"])
+    PRECEDENCE = {"^" : 3, "*" : 2, "/" : 2, "+" : 1, "-" : 1}
+    ASSOCIATIVITY = {"^" : "R", "*" : "L", "/" : "L", "+" : "L", "-" : "L"}
+
+    output_queue: list[str] = []
     op_stack = []
 
     while len(expression) > 0:
@@ -89,5 +92,21 @@ def shunting_yard_algorithm(expression: str):
 
     return output_queue
 
-res = is_valid_expression("(+23)")
-print(res)
+def convert_to_tree(postfix_expression: list[str]) -> OperatorNode:
+    OPERATORS = set(["^", "+", "-", "*", "/"])
+
+    stack = []
+    for token in postfix_expression:
+        if token.isdigit():
+            num_node = NumberNode(value = token)
+            stack.append(num_node)
+
+        elif token in OPERATORS:
+            r_node = stack.pop()
+            l_node = stack.pop()
+
+            op_node = OperatorNode(value = token, right_node = r_node, left_node = l_node)
+            stack.append(op_node)
+    
+    root = stack.pop()
+    return root
