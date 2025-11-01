@@ -1,9 +1,20 @@
 import tkinter as tk
+from tkinter.messagebox import showerror
 
 from ..gui_utils import visual_grid
 from .display_label import DisplayLabel
+from .calculator_utils import is_valid_expression
 
 class CalculatorFrame(tk.Frame):
+    def calculate_sequence(self):
+        expr = self.display.get_expression()
+
+        if is_valid_expression(expr):
+            pass
+
+        else:
+            showerror("Invalid Syntax", "Invalid Syntx")
+
     _instance = None
 
     # Ensure only one instance exist
@@ -25,13 +36,13 @@ class CalculatorFrame(tk.Frame):
         #visual_grid(self, rows = 6, cols = 4)
 
         # Display
-        display = DisplayLabel(self)
-        display.config(
+        self.display = DisplayLabel(self)
+        self.display.config(
             text = "",
             font = ("Arial", 15),
             anchor = "e",
             padx = 10)
-        display.grid(row = 0, column = 0, columnspan = 4, sticky = "nsew", padx = 5, pady = 5)
+        self.display.grid(row = 0, column = 0, columnspan = 4, sticky = "nsew", padx = 5, pady = 5)
 
         # Buttons
         buttons = ["", "", "C", "←", "^", "(", ")", "/", "7", "8", "9", "+", "4", "5", "6", "*", "1", "2", "3", "-", "0", ".", "ANS", "="]
@@ -54,16 +65,16 @@ class CalculatorFrame(tk.Frame):
                         button.config(command = lambda: print("Getting previous answer..."))
 
                     case "C":
-                        button.config(command = lambda: display.clear())
+                        button.config(command = lambda: self.display.clear())
 
                     case "←":
-                        button.config(command = lambda: display.delete())
+                        button.config(command = lambda: self.display.delete())
 
                     case ".":
-                        button.config(command = lambda: display.add_decimal())
+                        button.config(command = lambda: self.display.add_decimal())
 
                     case "=":
-                        button.config(command = lambda: print("Calculating..."))
+                        button.config(command = lambda: self.calculate_sequence())
 
                     case _:
-                        button.config(command = lambda char = button_text: display.add(char))
+                        button.config(command = lambda char = button_text: self.display.add(char))

@@ -41,3 +41,6 @@ class DisplayLabel(Label):
 
     def clear(self):
         self.config(text = "")
+
+    def get_expression(self) -> str:
+        return self.cget("text")
