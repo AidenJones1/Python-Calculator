@@ -3,18 +3,23 @@ from tkinter.messagebox import showerror
 
 from ..gui_utils import visual_grid
 from .display_label import DisplayLabel
-from .calculator_utils import is_valid_expression, shunting_yard_algorithm, convert_to_tree
+from .calculator_utils import is_valid_expression, shunting_yard_algorithm, convert_to_tree, calculate
 
 class CalculatorFrame(tk.Frame):
     def calculate_sequence(self):
-        expr = self.display.get_expression()
+        if self.display.in_entry_mode():
+            expr = self.display.get_expression()
 
-        if is_valid_expression(expr):
-            postfix_expr = shunting_yard_algorithm(expr)
-            root_node = convert_to_tree(postfix_expr)
+            if is_valid_expression(expr):
+                postfix_expr = shunting_yard_algorithm(expr)
+                root_node = convert_to_tree(postfix_expr)
+                res = calculate(root_node)
 
-        else:
-            showerror("Invalid Syntax", "Invalid Syntx")
+                self.display.set_display(res)
+                self.display.set_previous_answer(res)
+
+            else:
+                showerror("Invalid Syntax", "Invalid Syntx")
 
     _instance = None
 
@@ -63,16 +68,13 @@ class CalculatorFrame(tk.Frame):
                         button.config(state = tk.DISABLED)
 
                     case "ANS":
-                        button.config(command = lambda: print("Getting previous answer..."))
+                        button.config(command = lambda: self.display.display_previous_answer())
 
                     case "C":
                         button.config(command = lambda: self.display.clear())
 
                     case "←":
                         button.config(command = lambda: self.display.delete())
-
-                    case ".":
-                        button.config(command = lambda: self.display.add_decimal())
 
                     case "=":
                         button.config(command = lambda: self.calculate_sequence())

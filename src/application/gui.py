@@ -2,6 +2,7 @@ import tkinter as tk
 
 from .gui_utils import set_size
 from .calculator.calculator_frame import CalculatorFrame
+from resources import resource_path
 
 class Application(tk.Tk):
     _instance = None
@@ -17,7 +18,11 @@ class Application(tk.Tk):
         tk.Tk.__init__(self, *args, **kwargs)
 
         # Window Setup
-        self.title = "Aiden's Calculator"
+        self.title("Aiden's Calculator")
+
+        # Set the icon for the window
+        icon = tk.PhotoImage(file = resource_path("images/calculator.png"))
+        self.iconphoto(False, icon)
 
         set_size(window = self, width = 400, height = 600, center_screen = True)
         self.resizable(False, False)

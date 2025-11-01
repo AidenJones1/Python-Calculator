@@ -1,0 +1,60 @@
+('C:\\Coding Projects\\Python Calculator '
+ 'Project\\Python-Calculator\\build\\__main__\\__main__.pkg',
+ {'BINARY': True,
+  'DATA': True,
+  'EXECUTABLE': True,
+  'EXTENSION': True,
+  'PYMODULE': True,
+  'PYSOURCE': True,
+  'PYZ': False,
+  'SPLASH': True,
+  'SYMLINK': False},
+ [('pyi-contents-directory _internal', '', 'OPTION'),
+  ('PYZ-00.pyz',
+   'C:\\Coding Projects\\Python Calculator '
+   'Project\\Python-Calculator\\build\\__main__\\PYZ-00.pyz',
+   'PYZ'),
+  ('struct',
+   'C:\\Coding Projects\\Python Calculator '
+   'Project\\Python-Calculator\\build\\__main__\\localpycs\\struct.pyc',
+   'PYMODULE'),
+  ('pyimod01_archive',
+   'C:\\Coding Projects\\Python Calculator '
+   'Project\\Python-Calculator\\build\\__main__\\localpycs\\pyimod01_archive.pyc',
+   'PYMODULE'),
+  ('pyimod02_importers',
+   'C:\\Coding Projects\\Python Calculator '
+   'Project\\Python-Calculator\\build\\__main__\\localpycs\\pyimod02_importers.pyc',
+   'PYMODULE'),
+  ('pyimod03_ctypes',
+   'C:\\Coding Projects\\Python Calculator '
+   'Project\\Python-Calculator\\build\\__main__\\localpycs\\pyimod03_ctypes.pyc',
+   'PYMODULE'),
+  ('pyimod04_pywin32',
+   'C:\\Coding Projects\\Python Calculator '
+   'Project\\Python-Calculator\\build\\__main__\\localpycs\\pyimod04_pywin32.pyc',
+   'PYMODULE'),
+  ('pyiboot01_bootstrap',
+   'c:\\Coding Projects\\Python Calculator '
+   'Project\\Python-Calculator\\.venv\\Lib\\site-packages\\PyInstaller\\loader\\pyiboot01_bootstrap.py',
+   'PYSOURCE'),
+  ('pyi_rth_inspect',
+   'C:\\Coding Projects\\Python Calculator '
+   'Project\\Python-Calculator\\.venv\\Lib\\site-packages\\PyInstaller\\hooks\\rthooks\\pyi_rth_inspect.py',
+   'PYSOURCE'),
+  ('pyi_rth__tkinter',
+   'C:\\Coding Projects\\Python Calculator '
+   'Project\\Python-Calculator\\.venv\\Lib\\site-packages\\PyInstaller\\hooks\\rthooks\\pyi_rth__tkinter.py',
+   'PYSOURCE'),
+  ('__main__',
+   'C:\\Coding Projects\\Python Calculator '
+   'Project\\Python-Calculator\\src\\__main__.py',
+   'PYSOURCE')],
+ 'python314.dll',
+ True,
+ False,
+ False,
+ [],
+ None,
+ None,
+ None)

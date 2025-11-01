@@ -1,6 +1,7 @@
 from .nodes import OperatorNode, NumberNode
 
 def is_valid_expression(expression: str) -> bool:
+    """Determines whether the give expression is valid for conversion."""
     INVALID_ENDINGS = set(["^", "+", "-", "*", "/", ".", "("])
     OPERATORS_AND_OPEN_PARENTHESIS = set(["^", "+", "-", "*", "/", "("])
     OPERATORS = set(["^", "+", "-", "*", "/"])
@@ -29,10 +30,14 @@ def is_valid_expression(expression: str) -> bool:
                 return False
 
         elif expression[i] in OPERATORS:
+            operator_present = True
             if not expression[i + 1].isdigit() and expression[i + 1] != "(": # e.g. '9+*' OR '4-)'
                 return False
-            
-            operator_present = True
+        
+        elif expression[i] == ".":
+            if i == 0 or not expression[i - 1].isdigit() or not expression[i + 1].isdigit():# e.g. '.4' OR '4.'
+                return False
+    
 
     # e.g. '((5+3)'
     if parenthesis_stack or not operator_present:
@@ -41,6 +46,7 @@ def is_valid_expression(expression: str) -> bool:
     return True
 
 def shunting_yard_algorithm(expression: str) -> list[str]:
+    """Converts the expression into its postfix notation."""
     OPERATORS = set(["^", "+", "-", "*", "/"])
     PRECEDENCE = {"^" : 3, "*" : 2, "/" : 2, "+" : 1, "-" : 1}
     ASSOCIATIVITY = {"^" : "R", "*" : "L", "/" : "L", "+" : "L", "-" : "L"}
@@ -52,9 +58,9 @@ def shunting_yard_algorithm(expression: str) -> list[str]:
         token = expression[0]
 
         if token.isdigit():
-            # Look ahead for consecutive numbers
+            # Look ahead for consecutive numbers and decimal
             j = 1
-            while j < len(expression) and expression[j].isdigit():
+            while j < len(expression) and (expression[j].isdigit() or expression[j] == "."):
                 token += expression[j]
                 j += 1
         
@@ -92,12 +98,22 @@ def shunting_yard_algorithm(expression: str) -> list[str]:
 
     return output_queue
 
+def is_float(num: str):
+    if num is None:
+        return False
+    try:
+        float(num)
+        return True
+    except:
+        return False
+
 def convert_to_tree(postfix_expression: list[str]) -> OperatorNode:
+    """Converts the postfix expression into an expression tree."""
     OPERATORS = set(["^", "+", "-", "*", "/"])
 
     stack = []
     for token in postfix_expression:
-        if token.isdigit():
+        if token.isdigit() or is_float(token):
             num_node = NumberNode(value = token)
             stack.append(num_node)
 
@@ -110,3 +126,46 @@ def convert_to_tree(postfix_expression: list[str]) -> OperatorNode:
     
     root = stack.pop()
     return root
+
+def calculate(root: OperatorNode) -> float:
+    """Traverse the tree and calulcate the value."""
+    # Find value of right node
+    r_node = root.children[0]
+    if type(r_node) == OperatorNode:
+        r_value = calculate(r_node)
+
+    elif type(r_node) == NumberNode:
+        r_value = r_node.value
+
+    # Find value of left node
+    l_node = root.children[1]
+    if type(l_node) == OperatorNode:
+        l_value = calculate(l_node)
+
+    elif type(l_node) == NumberNode:
+        l_value = l_node.value
+
+    # Calculate
+    operator = root.value
+
+    match operator:
+        case "+":
+            return float(l_value) + float(r_value)
+        
+        case "-":
+            return float(l_value) - float(r_value)
+        
+        case "*":
+            return float(l_value) * float(r_value)
+        
+        case "/":
+            if r_value != 0:
+                return float(l_value) / float(r_value)
+            
+            return 0
+        
+        case "^":
+            return float(l_value) ** float(r_value)
+        
+        case _:
+            return 0

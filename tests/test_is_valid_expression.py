@@ -53,6 +53,7 @@ def test_is_valid_expression():
 		(".4+3", False),
 		("5.+3", False),
 		("5.2-3.1", True),
+		("5..2-3.1", False),
 		("(0.4^3.2)+2.9", True),
 		("5+.9", False),
 		("2+9.", False),
