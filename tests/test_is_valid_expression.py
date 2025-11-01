@@ -48,6 +48,18 @@ def test_is_valid_expression():
 		("(3+2))", False),
 		("(3+2", False),
 		("3+2)", False),
+
+		# Decimal testing
+		(".4+3", False),
+		("5.+3", False),
+		("5.2-3.1", True),
+		("(0.4^3.2)+2.9", True),
+		("5+.9", False),
+		("2+9.", False),
+
+		# Complex Equations
+		("2.1^2+(234.32-0)", True),
+		("(1.75+0.25)*(3.14-2.9)/(0.3+(1.1^6.7))", True)
 	]
 
 	for expr, expected in cases:
